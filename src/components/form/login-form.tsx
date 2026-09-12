@@ -7,20 +7,49 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { loginSchema } from "@/validation";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
+import { useLogin } from "@/hooks/auth.hook";
+import { useRouter } from "next/navigation";
+import { toast } from "../ui/toast";
+import { Spinner } from "../ui/spinner";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
+  const { mutate: login, isPending: loginPending } = useLogin();
+
+  const router = useRouter();
+
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "testeradmin@gmail.com",
+      password: "testerAdmin@123",
     },
     validators: {
       onSubmit: loginSchema,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
+      const loginData = {
+        email: value.email,
+        password: value.password,
+      };
+      login(loginData, {
+        onSuccess: (res) => {
+          toast.add({
+            title: res.message || "Login successful",
+            description: "Welcome back!",
+            type: "success",
+          });
+          router.push("/");
+        },
+        onError: (err) => {
+          toast.add({
+            title: "Login failed",
+            description:
+              err.message || "Please check your credentials and try again.",
+            type: "error",
+          });
+        },
+      });
     },
   });
 
@@ -102,7 +131,16 @@ export default function LoginForm() {
             }}
           </form.Field>
 
-          <Button type="submit">Submit</Button>
+          <Button disabled={loginPending} type="submit">
+            {loginPending ? (
+              <>
+                <Spinner></Spinner>
+                Submitting...
+              </>
+            ) : (
+              "Login"
+            )}
+          </Button>
         </FieldGroup>
       </form>
     </div>

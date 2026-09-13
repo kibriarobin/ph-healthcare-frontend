@@ -7,3 +7,13 @@ export function userLogin(payload: LoginPayload) {
     body: payload,
   });
 }
+
+export function userLogout() {
+  return apiClient("/auth/logout", {
+    method: "POST",
+  });
+}
+
+export function getUserProfile() {
+  return apiClient("/auth/me");
+}

@@ -13,17 +13,17 @@ import {
 import { loginSchema } from "@/validation";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
-import { useGoogleOAuth, useLogin } from "@/hooks/auth.hook";
+import { useLogin } from "@/hooks/auth.hook";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/toast";
 import { Spinner } from "../ui/spinner";
-import { GoogleLogin } from "@react-oauth/google";
+import Link from "next/link";
+import GoogleLoginComponent from "../modules/google-login/googleLogin";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const { mutate: login, isPending: loginPending } = useLogin();
-  const { mutate: googleLogin } = useGoogleOAuth();
 
   const router = useRouter();
 
@@ -60,52 +60,6 @@ export default function LoginForm() {
       });
     },
   });
-
-  const handleGoogleLoginSuccess = (credentialResponse: {
-    credential?: string;
-  }) => {
-    const idToken = credentialResponse.credential;
-
-    if (!idToken) {
-      toast.add({
-        title: "Google login failed",
-        description: "No credential received.",
-        type: "error",
-      });
-      return;
-    }
-
-    googleLogin(
-      { idToken: idToken },
-      {
-        onSuccess: () => {
-          toast.add({
-            title: "Login successful",
-            description: "Welcome back!",
-            type: "success",
-          });
-          router.push("/");
-        },
-
-        onError: (err) => {
-          toast.add({
-            title: "Google login failed",
-            description:
-              err.message || "Please check your credentials and try again.",
-            type: "error",
-          });
-        },
-      },
-    );
-  };
-
-  const handleGoogleLoginError = () => {
-    toast.add({
-      title: "Google login failed",
-      description: "Please try again.",
-      type: "error",
-    });
-  };
 
   return (
     <div className="flex flex-col gap-5">
@@ -200,13 +154,17 @@ export default function LoginForm() {
 
       <FieldSeparator>Or</FieldSeparator>
 
-      <GoogleLogin
-        theme="outline"
-        shape="pill"
-        text="continue_with"
-        onSuccess={handleGoogleLoginSuccess}
-        onError={handleGoogleLoginError}
-      ></GoogleLogin>
+      <GoogleLoginComponent></GoogleLoginComponent>
+
+      <div className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium underline underline-offset-4 hover:text-primary"
+        >
+          Register
+        </Link>
+      </div>
     </div>
   );
 }

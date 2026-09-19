@@ -6,6 +6,7 @@ import {
   userRegistration,
   verifyAccount,
 } from "@/api";
+import { UserProfileResponse } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useRegistration() {
@@ -39,7 +40,7 @@ export function useGoogleOAuth() {
 }
 
 export function useGetMe() {
-  return useQuery({
+  return useQuery<UserProfileResponse>({
     queryKey: ["user"],
     queryFn: getUserProfile,
     retry: false,

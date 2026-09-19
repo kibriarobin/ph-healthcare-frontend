@@ -2,6 +2,7 @@ import apiClient from "@/lib/clientApi";
 import type {
   LoginPayload,
   RegistrationPayload,
+  UserProfileResponse,
   VerifyAccountPayload,
 } from "@/types/auth.type";
 
@@ -32,7 +33,7 @@ export function userLogout() {
   });
 }
 
-export function getUserProfile() {
+export function getUserProfile(): Promise<UserProfileResponse> {
   return apiClient("/auth/me");
 }
 

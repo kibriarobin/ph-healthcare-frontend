@@ -6,6 +6,7 @@ import Logo from "@/assets/svg/Logo";
 import { useGetMe, useLogout } from "@/hooks";
 import { toast } from "@/components/ui/toast";
 import { useQueryClient } from "@tanstack/react-query";
+import type { UserRole } from "@/types";
 
 export default function Header() {
   const routes = [
@@ -14,9 +15,18 @@ export default function Header() {
     { name: "Apply as Doctor", url: "/apply" },
   ];
 
+  const dashboardRoutes: Record<UserRole, string> = {
+    SUPER_ADMIN: "/admin",
+    ADMIN: "/admin",
+    DOCTOR: "/doctor",
+    PATIENT: "/patient",
+  };
+
   const { data, isLoading } = useGetMe();
   const { mutate: logout } = useLogout();
   const queryClient = useQueryClient();
+
+  const role = !!data?.data && data?.data.role;
 
   const handleLogout = () => {
     logout(undefined, {
@@ -53,6 +63,10 @@ export default function Header() {
               {route.name}
             </Link>
           ))}
+
+          {
+            role && <Link href={dashboardRoutes[role]}></Link>
+          }
         </nav>
         <div>
           {!isLoading && !data && (

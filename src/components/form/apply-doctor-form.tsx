@@ -46,16 +46,16 @@ export default function DoctorApplyForm() {
 
   const form = useForm({
     defaultValues: {
-      name: "Mir Hussain",
-      email: "drmir@gmail.com",
-      phone: "01912345678",
-      address: "Neptune",
-      specialization: "Cardiologist",
-      licenseNumber: "ABC123",
-      qualifications: "MBBS",
-      experienceYears: "50",
-      consultationFee: "10000",
-      bio: "My life, my rules.",
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      specialization: "",
+      licenseNumber: "",
+      qualifications: "",
+      experienceYears: "",
+      consultationFee: "",
+      bio: "",
       resume: null as File | null,
       additionalFiles: [] as File[],
     },
@@ -470,15 +470,13 @@ export default function DoctorApplyForm() {
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor="resume-field">Resume</FieldLabel>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Button
-                      render={<label htmlFor="resume-field" />}
-                      nativeButton={false}
-                      variant="outline"
-                      type="button"
+                    <label
+                      htmlFor="resume-field"
+                      className="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
                     >
-                      <FileUp size="4" />
+                      <FileUp className="size-4" />
                       Upload resume
-                    </Button>
+                    </label>
                     <input
                       id="resume-field"
                       type="file"
@@ -545,15 +543,13 @@ export default function DoctorApplyForm() {
                     </span>
                   </FieldLabel>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Button
-                      render={<label htmlFor="additional-file-field" />}
-                      nativeButton={false}
-                      variant="outline"
-                      type="button"
+                    <label
+                      htmlFor="additional-file-field"
+                      className="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
                     >
-                      <Plus size="4" />
+                      <Plus className="size-4" />
                       Add Files
-                    </Button>
+                    </label>
                     <input
                       id="additional-file-field"
                       type="file"

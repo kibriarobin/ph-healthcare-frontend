@@ -65,7 +65,7 @@ export default function Header() {
           ))}
 
           {
-            role && <Link href={dashboardRoutes[role]}></Link>
+            role && <Link href={dashboardRoutes[role]}>Dashboard</Link>
           }
         </nav>
         <div>

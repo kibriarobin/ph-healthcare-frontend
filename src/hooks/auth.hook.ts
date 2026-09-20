@@ -6,7 +6,7 @@ import {
   userRegistration,
   verifyAccount,
 } from "@/api";
-import { UserProfileResponse } from "@/types";
+import type { UserProfileResponse } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useRegistration() {
